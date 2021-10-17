@@ -14,8 +14,9 @@ abstract class SheetInterface {
 
 class Sheet {
     -cells_: vector<vector<CellInterface*>>>
+    -HasCircularDependency(in posToUpdate: Position, in referencedCells: vector<Position>): bool
 }
 
-class Sheet implements SheetInterface
+class Sheet extends SheetInterface
 
 @enduml
