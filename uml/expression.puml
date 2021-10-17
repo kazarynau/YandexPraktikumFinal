@@ -1,0 +1,31 @@
+
+@startuml
+
+abstract class Expr {
+    +{abstract} Print()
+    +{abstract} DoPrintFormula(inout os: ostream, in precedence: ExprPrecedence)
+    +{abstract} Evaluate(): double
+    +{abstract} GetPrecedence(): ExprPrecedence
+    +PrintFormula(inout os: ostream, in precedence: ExprPrecedence, in rightChild: bool)
+}
+
+class BinaryOpExpr {
+    -opType_: BinaryOpExpr::Type
+    -lhs_: Expr*
+    -rhs_: Expr*
+}
+
+class UnaryOpExpr {
+    -opType_: UnaryOpExpr::Type
+    -operand_: Expr*
+}
+
+class NumberExpr {
+    -value_: double
+}
+
+class BinaryOpExpr implements Expr
+class UnaryOpExpr implements Expr
+class NumberExpr implements Expr
+
+@enduml

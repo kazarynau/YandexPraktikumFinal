@@ -1,0 +1,16 @@
+
+@startuml
+
+!include cell.puml
+!include sheet.puml
+!include formula.puml
+
+Cell *-- FormulaInterface
+Sheet *-- CellInterface
+
+remove Expr
+remove BinaryOpExpr
+remove UnaryOpExpr
+remove NumberExpr
+
+@enduml

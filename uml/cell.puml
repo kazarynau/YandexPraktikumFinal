@@ -1,0 +1,17 @@
+
+@startuml
+
+abstract class CellInterface {
+    +{abstract} Set(in text: string)
+    +{abstract} GetValue(): Value
+    +{abstract} GetText(): string
+}
+
+class Cell {
+    +Clear()
+    -cell_: Impl*
+}
+
+class Cell extends CellInterface
+
+@enduml

@@ -1,0 +1,14 @@
+
+@startuml
+!include expression.puml
+
+class FormulaAST {
+    +Execute(): double
+    +Print(inout os: ostream)
+    +PrintFormula(inout os: ostream)
+    -rootExpr_: Expr
+}
+
+FormulaAST *-- Expr
+
+@enduml

@@ -1,0 +1,17 @@
+
+@startuml
+!include formulaAst.puml
+
+abstract class FormulaInterface {
+    +{abstract} Evaluate()
+    +{abstract} GetExpression(): string
+}
+
+class Formula {
+    -ast_: FormulaAST
+}
+
+class Formula implements FormulaInterface
+Formula *-- FormulaAST
+
+@enduml

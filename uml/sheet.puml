@@ -1,0 +1,20 @@
+
+@startuml
+
+abstract class SheetInterface {
+    +{abstract} SetCell(in pos: Position, in text: string)
+    +{abstract} GetCell(in pos: Position): CellInterface*
+    +{abstract} GetCell(in pos: Position) const: CellInterface*
+    +{abstract} ClearCell(in pos: Position)
+    +{abstract} GetPrintableSize(): Size
+    +{abstract} PrintValues(inout os: ostream)
+    +{abstract} PrintTexts(inout os: ostream)
+}
+
+class Sheet {
+    -sheet_: vector<vector<CellInterface*>>>
+}
+
+class Sheet implements SheetInterface
+
+@enduml
