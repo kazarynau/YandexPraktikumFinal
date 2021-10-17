@@ -35,29 +35,29 @@ struct Size {
 
 // Описывает ошибки, которые могут возникнуть при вычислении формулы.
 class FormulaError : public std::runtime_error {
-public:
+ public:
   using std::runtime_error::runtime_error;
 };
 
-std::ostream &operator<<(std::ostream &output, FormulaError fe);
+std::ostream& operator<<(std::ostream& output, FormulaError fe);
 
 // Исключение, выбрасываемое при попытке задать синтаксически некорректную
 // формулу
 class FormulaException : public std::runtime_error {
-public:
+ public:
   using std::runtime_error::runtime_error;
 };
 
 // Исключение, выбрасываемое при попытке передать в метод некорректную позицию
 class InvalidPositionException : public std::out_of_range {
-public:
+ public:
   using std::out_of_range::out_of_range;
 };
 
 // Исключение, выбрасываемое, если вставка строк/столбцов в таблицу приведёт к
 // ячейке с позицией больше максимально допустимой
 class TableTooBigException : public std::runtime_error {
-public:
+ public:
   using std::runtime_error::runtime_error;
 };
 
@@ -65,7 +65,7 @@ inline constexpr char FORMULA_SIGN = '=';
 inline constexpr char ESCAPE_SIGN = '\'';
 
 class CellInterface {
-public:
+ public:
   // Либо текст ячейки, либо значение формулы, либо сообщение об ошибке из
   // формулы
   using Value = std::variant<std::string, double, FormulaError>;
@@ -93,7 +93,7 @@ public:
 
 // Интерфейс таблицы
 class SheetInterface {
-public:
+ public:
   virtual ~SheetInterface() = default;
 
   // Задаёт содержимое ячейки.
@@ -104,8 +104,8 @@ public:
 
   // Возвращает значение ячейки.
   // Если ячейка пуста, может вернуть nullptr.
-  virtual const CellInterface *GetCell(Position pos) const = 0;
-  virtual CellInterface *GetCell(Position pos) = 0;
+  virtual const CellInterface* GetCell(Position pos) const = 0;
+  virtual CellInterface* GetCell(Position pos) = 0;
 
   // Очищает ячейку.
   // Последующий вызов GetCell() для этой ячейки вернёт либо nullptr, либо
@@ -121,8 +121,10 @@ public:
   // табуляции. После каждой строки выводится символ перевода строки. Для
   // преобразования ячеек в строку используются методы GetValue() или GetText()
   // соответственно. Пустая ячейка представляется пустой строкой в любом случае.
-  virtual void PrintValues(std::ostream &output) const = 0;
-  virtual void PrintTexts(std::ostream &output) const = 0;
+  virtual void PrintValues(std::ostream& output) const = 0;
+  virtual void PrintTexts(std::ostream& output) const = 0;
+
+  FormulaInterface::Value GetCellValue(std::string_view str) const = 0;
 };
 
 // Создаёт готовую к работе пустую таблицу.

@@ -4,7 +4,7 @@
 abstract class Expr {
     +{abstract} Print()
     +{abstract} DoPrintFormula(inout os: ostream, in precedence: ExprPrecedence)
-    +{abstract} Evaluate(): double
+    +{abstract} Evaluate(in getCellValueCallback: function): double
     +{abstract} GetPrecedence(): ExprPrecedence
     +PrintFormula(inout os: ostream, in precedence: ExprPrecedence, in rightChild: bool)
 }

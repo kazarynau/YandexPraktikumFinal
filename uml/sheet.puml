@@ -9,10 +9,11 @@ abstract class SheetInterface {
     +{abstract} GetPrintableSize(): Size
     +{abstract} PrintValues(inout os: ostream)
     +{abstract} PrintTexts(inout os: ostream)
+    +{abstract} GetCellValue(in str: string_view): FormulaInterface::Value
 }
 
 class Sheet {
-    -sheet_: vector<vector<CellInterface*>>>
+    -cells_: vector<vector<CellInterface*>>>
 }
 
 class Sheet implements SheetInterface

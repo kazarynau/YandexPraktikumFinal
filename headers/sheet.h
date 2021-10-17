@@ -23,8 +23,16 @@ class Sheet : public SheetInterface {
   void PrintValues(std::ostream& output) const override;
   void PrintTexts(std::ostream& output) const override;
 
-  // Можете дополнить ваш класс нужными полями и методами
+  // - Преобразуем str в позицию
+  // - проверяем, валидна ли позиция
+  // - получаем значение
+  //   если значение double, возвращаем double
+  //   если значение string, то пытаемся преобразовать в double,
+  //     если получилось, возвращаем double
+  //     если нет - ошибку
+  //   если значение ошибка, то возвращаем ошибку
+  FormulaInterface::Value GetCellValue(std::string_view str) const override;
 
  private:
-  std::vector<std::vector<std::unique_ptr<CellInterface>>> sheet_;
+  std::vector<std::vector<std::unique_ptr<CellInterface>>> cells_;
 };

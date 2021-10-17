@@ -3,7 +3,7 @@
 
 abstract class CellInterface {
     +{abstract} Set(in text: string)
-    +{abstract} GetValue(): Value
+    +{abstract} GetValue(in getCellValueCallback: function): Value
     +{abstract} GetText(): string
 }
 

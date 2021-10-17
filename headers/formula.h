@@ -1,22 +1,24 @@
 #pragma once
 
-#include "FormulaAST.h"
-#include "common.h"
 #include <memory>
 #include <variant>
+#include "FormulaAST.h"
+#include "common.h"
 
 // Формула, позволяющая вычислять и обновлять арифметическое выражение.
 // Поддерживаемые возможности:
 // * Простые бинарные операции и числа, скобки: 1+2*3, 2.5*(2+3.5/7)
 class FormulaInterface {
-public:
+ public:
   using Value = std::variant<double, FormulaError>;
 
   virtual ~FormulaInterface() = default;
 
   // Возвращает вычисленное значение формулы либо ошибку. На данном этапе
   // мы создали только 1 вид ошибки -- деление на 0.
-  virtual Value Evaluate() const = 0;
+  virtual Value Evaluate(
+      std::function<FormulaInterface::Value(std::string_view)>
+          getCellValueCallback) const = 0;
 
   // Возвращает выражение, которое описывает формулу.
   // Не содержит пробелов и лишних скобок.
@@ -28,36 +30,28 @@ public:
 std::unique_ptr<FormulaInterface> ParseFormula(std::string expression);
 
 // -------------------------------------------------------------------------
-// class Formula : public FormulaInterface {
-//  public:
-//   // Реализуйте следующие методы:
-//   explicit Formula(std::string expression)
-//       : ast_(ParseFormulaAST(expression)) {}
+class Formula : public FormulaInterface {
+ public:
+  // Реализуйте следующие методы:
+  explicit Formula(std::string expression)
+      : ast_(ParseFormulaAST(expression)) {}
 
-//   Value Evaluate() const override {
-//     try {
-//       return ast_.Execute();
-//     } catch (const FormulaError& error) {
-//       return error;
-//     }
-//     return FormulaError("");
-//   }
+  Value Evaluate(std::function<FormulaInterface::Value(std::string_view)>
+                     getCellValueCallback) const override {
+    try {
+      return ast_.Execute();
+    } catch (const FormulaError& error) {
+      return error;
+    }
+    return FormulaError("");
+  }
 
-//   std::string GetExpression() const override {
-//     std::stringstream ss;
-//     ast_.PrintFormula(ss);
-//     return ss.str();
-//   }
+  std::string GetExpression() const override {
+    std::stringstream ss;
+    ast_.PrintFormula(ss);
+    return ss.str();
+  }
 
-//  private:
-//   FormulaAST makeFormulaAst(const std::string& expression) {
-//     try {
-//       return ParseFormulaAST(expression);
-//     } catch (...) {
-//     }
-//     throw FormulaException("");
-//   }
-
-//  private:
-//   FormulaAST ast_;
-// };
+ private:
+  FormulaAST ast_;
+};

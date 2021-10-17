@@ -27,7 +27,9 @@ private:
 // ------------------------------------------------------------
 class Cell::Impl {
 public:
-  virtual CellInterface::Value GetValue() const = 0;
+  virtual CellInterface::Value
+  GetValue(std::function<FormulaInterface::Value(std::string_view)>
+               getCellValueCallback) const = 0;
   virtual std::string GetText() const = 0;
   virtual ~Impl() = default;
 };
@@ -38,7 +40,9 @@ public:
 
   void Set(const std::string &text);
 
-  CellInterface::Value GetValue() const override;
+  CellInterface::Value
+  GetValue(std::function<FormulaInterface::Value(std::string_view)>
+               getCellValueCallback) const override;
 
   std::string GetText() const override;
 

@@ -3,7 +3,7 @@
 !include expression.puml
 
 class FormulaAST {
-    +Execute(): double
+    +Execute(in getCellValueCallback: function): double
     +Print(inout os: ostream)
     +PrintFormula(inout os: ostream)
     -rootExpr_: Expr
