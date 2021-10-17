@@ -9,6 +9,6 @@ class FormulaAST {
     -rootExpr_: Expr
 }
 
-FormulaAST *-- Expr
+FormulaAST *-r- Expr
 
 @enduml

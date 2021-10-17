@@ -12,6 +12,6 @@ class Formula {
 }
 
 class Formula implements FormulaInterface
-Formula *-- FormulaAST
+Formula *-r- FormulaAST
 
 @enduml

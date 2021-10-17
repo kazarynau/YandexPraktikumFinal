@@ -5,8 +5,8 @@
 !include sheet.puml
 !include formula.puml
 
-Cell *-- FormulaInterface
-Sheet *-- CellInterface
+Cell *-r- FormulaInterface
+Sheet *-r- CellInterface
 
 remove Expr
 remove BinaryOpExpr
