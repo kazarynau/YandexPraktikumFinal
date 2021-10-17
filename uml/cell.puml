@@ -5,10 +5,12 @@ abstract class CellInterface {
     +{abstract} Set(in text: string)
     +{abstract} GetValue(in getCellValueCallback: function): Value
     +{abstract} GetText(): string
+    +{abstract} GetReferencedCells(): vector<Position>
 }
 
 class Cell {
     +Clear()
+    +IsReferenced(): bool
     -cell_: Impl*
 }
 

@@ -4,9 +4,13 @@
 
 class FormulaAST {
     +Execute(in getCellValueCallback: function): double
+    +PrintCells(inout os: ostream)
     +Print(inout os: ostream)
     +PrintFormula(inout os: ostream)
+    +GetCells(): list<Position>
+    +GetCells() const : list<Position>
     -rootExpr_: Expr
+    -cells: list<Position>
 }
 
 FormulaAST *-r- Expr

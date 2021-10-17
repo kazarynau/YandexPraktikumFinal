@@ -61,6 +61,13 @@ class TableTooBigException : public std::runtime_error {
   using std::runtime_error::runtime_error;
 };
 
+// Исключение, выбрасываемое при попытке задать формулу, которая приводит к
+// циклической зависимости между ячейками
+class CircularDependencyException : public std::runtime_error {
+ public:
+  using std::runtime_error::runtime_error;
+};
+
 inline constexpr char FORMULA_SIGN = '=';
 inline constexpr char ESCAPE_SIGN = '\'';
 
@@ -89,6 +96,11 @@ class CellInterface {
   // редактирование. В случае текстовой ячейки это её текст (возможно,
   // содержащий экранирующие символы). В случае формулы - её выражение.
   virtual std::string GetText() const = 0;
+
+  // Возвращает список ячеек, которые непосредственно задействованы в данной
+  // формуле. Список отсортирован по возрастанию и не содержит повторяющихся
+  // ячеек. В случае текстовой ячейки список пуст.
+  virtual std::vector<Position> GetReferencedCells() const = 0;
 };
 
 // Интерфейс таблицы
