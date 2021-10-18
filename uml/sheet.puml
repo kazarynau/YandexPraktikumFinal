@@ -13,7 +13,7 @@ abstract class SheetInterface {
 }
 
 class Sheet {
-    -cells_: vector<vector<CellInterface*>>>
+    -cells_: vector<vector<Cell*>>>
     -HasCircularDependency(in posToUpdate: Position, in referencedCells: vector<Position>): bool
 }
 

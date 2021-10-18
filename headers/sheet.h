@@ -11,19 +11,26 @@ class Sheet : public SheetInterface {
  public:
   ~Sheet();
 
-  // НАДО КАК-ТО ИНАЧЕ, т.к. при вызове сета у села мы начинаем инвалидировать
-  // чужие кэши и т.д.
   // - проверяем границы
+  // - сравниваем text: если text == cell.GetText(), выходим
   // - создаем новый cell (старый не обновляем, пока не проверим на циклы)
   // - получаем для него referenced cells
   // - запускаем проверку HasCircularDependency()
-  //   если есть, то выбрасываем CircularDependencyException
-  //   если нет, то обновляем ячейку (например, swap)
+  //   если есть, то выбрасываем CircularDependencyException и ячейку не
+  //   обновляем
+  // - инвалидируем кэш старой ячейки
+  // - инвалидируем кэш у всех dependent cells старой ячейки (InvalidateCache)
+  // - отвязываем старую ячейку от всех referenced cells (DeleteDependentCell)
+  // - заменяем старую ячейку на новую
+  // - для каждой referenced cell новой ячейки вызываем AddDependentCell, в
+  // качестве аргумента передаем новую ячейку
   void SetCell(Position pos, std::string text) override;
 
   const CellInterface* GetCell(Position pos) const override;
   CellInterface* GetCell(Position pos) override;
 
+  // - инвалидируем кэш у всех dependent cells (InvalidateCache)
+  // - отвязываем ячейку от всех referenced cells (DeleteDependentCell)
   void ClearCell(Position pos) override;
 
   Size GetPrintableSize() const override;
@@ -52,5 +59,5 @@ class Sheet : public SheetInterface {
       const std::vector<Position>& referencedCells) const;
 
  private:
-  std::vector<std::vector<std::unique_ptr<CellInterface>>> cells_;
+  std::vector<std::vector<std::unique_ptr<Cell>>> cells_;
 };

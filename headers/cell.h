@@ -10,28 +10,21 @@ class Cell : public CellInterface {
   Cell();
   ~Cell();
 
-  // - выясняем, что надо создавать: текст или формулу
-  // - инвалидируем свой кэш
-  // - инвалидируем кэш у всех dependent cells (InvalidateCache)
-  // - отвязываемся от всех referenced cells (DeleteDependentCell)
-  // - создаем необходимый impl
-  // - получаем referenced cells
-  // - для каждой referenced cell вызываем AddDependentCell, в качестве
-  // аргумента передаем себя
   void Set(std::string text) override;
 
-  // - инвалидируем кэш у всех dependent cells (InvalidateCache)
-  // - отвязываемся от всех referenced cells (DeleteDependentCell)
   // - сбрасываем impl_
   void Clear();
 
   Value GetValue() const override;
   std::string GetText() const override;
   std::vector<Position> GetReferencedCells() const override;
+  // Используется Position, т.к. сказано, что нельзя менять CellInterface,
+  // поэтому нет смысла использовать указатели на ячейки
+  std::vector<Position> GetDependentCells() const;
 
   // Если ячейка не создана, создаем EmptyImpl и в нее добавляем dependent cell
-  void AddDependentCell(const CellInterface* dependent);
-  void DeleteDependentCell(const CellInterface* dependent);
+  void AddDependentCell(const Position pos);
+  void DeleteDependentCell(const Position pos);
   void InvalidateCache() const;
 
  private:
@@ -53,8 +46,10 @@ class Cell::Impl {
   virtual ~Impl() = default;
 
   virtual std::vector<Position> GetReferencedCells() const = 0;
-  virtual void AddDependentCell(const CellInterface* dependent) = 0;
-  virtual void DeleteDependentCell(const CellInterface* dependent) = 0;
+  virtual std::vector<Position> GetDependentCells() const = 0;
+
+  virtual void AddDependentCell(const Position pos) = 0;
+  virtual void DeleteDependentCell(const Position pos) = 0;
   virtual void InvalidateCache() const = 0;
 };
 
@@ -73,9 +68,10 @@ class Cell::FormulaImpl : public Impl {
   std::string GetText() const override;
 
   std::vector<Position> GetReferencedCells() const override;
+  std::vector<Position> GetDependentCells() const override;
 
-  void AddDependentCell(const CellInterface* dependent) override;
-  void DeleteDependentCell(const CellInterface* dependent) override;
+  void AddDependentCell(const Position pos) override;
+  void DeleteDependentCell(const Position pos) override;
 
   // Сбрасывает свой cache_
   // а также вызывает InvalidateCache для всех dependentCells_;
@@ -83,6 +79,6 @@ class Cell::FormulaImpl : public Impl {
 
  private:
   std::unique_ptr<FormulaInterface> formula_;
-  std::unordered_set<CellInterface*> dependentCells_;
+  std::unordered_set<Position> dependentCells_;
   mutable std::optional<CellInterface::Value> cache_;
 };

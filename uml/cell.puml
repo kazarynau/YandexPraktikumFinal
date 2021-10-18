@@ -12,8 +12,9 @@ abstract class CellInterface {
 class Cell {
     +Cell()
     +Clear()
-    +AddDependentCell(in dependent: CellInterface*)
-    +DeleteDependentCell(in dependent: CellInterface*)
+    +GetDependentCells(): vector<Position>
+    +AddDependentCell(in pos: Position)
+    +DeleteDependentCell(in pos: Position)
     +InvalidateCache()
     -cell_: Impl*
 }
