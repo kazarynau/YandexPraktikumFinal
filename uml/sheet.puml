@@ -9,7 +9,7 @@ abstract class SheetInterface {
     +{abstract} GetPrintableSize(): Size
     +{abstract} PrintValues(inout os: ostream)
     +{abstract} PrintTexts(inout os: ostream)
-    +{abstract} GetCellValue(in str: string_view): FormulaInterface::Value
+    +{abstract} GetCellValue(in str: string_view): double
 }
 
 class Sheet {

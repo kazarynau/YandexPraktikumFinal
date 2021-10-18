@@ -48,8 +48,7 @@ class Cell : public CellInterface {
 class Cell::Impl {
  public:
   virtual CellInterface::Value GetValue(
-      std::function<FormulaInterface::Value(std::string_view)>
-          getCellValueCallback) const = 0;
+      std::function<double(std::string_view)> getCellValueCallback) const = 0;
   virtual std::string GetText() const = 0;
   virtual ~Impl() = default;
 
@@ -68,9 +67,8 @@ class Cell::FormulaImpl : public Impl {
   // Сначала проверяем кэш
   // Вычисляем, только если кэш пуст
   // После вычисления обновляем кэш
-  CellInterface::Value GetValue(
-      std::function<FormulaInterface::Value(std::string_view)>
-          getCellValueCallback) const override;
+  CellInterface::Value GetValue(std::function<double(std::string_view)>
+                                    getCellValueCallback) const override;
 
   std::string GetText() const override;
 

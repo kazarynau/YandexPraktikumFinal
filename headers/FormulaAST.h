@@ -22,8 +22,8 @@ class FormulaAST {
   FormulaAST& operator=(FormulaAST&&) = default;
   ~FormulaAST();
 
-  double Execute(std::function<FormulaInterface::Value(std::string_view)>
-                     getCellValueCallback) const;
+  double Execute(
+      std::function<double(std::string_view)> getCellValueCallback) const;
   void PrintCells(std::ostream& out) const;
   void Print(std::ostream& out) const;
   void PrintFormula(std::ostream& out) const;
@@ -52,8 +52,7 @@ class Expr {
   virtual void DoPrintFormula(std::ostream& out,
                               ExprPrecedence precedence) const = 0;
   virtual double Evaluate(
-      std::function<FormulaInterface::Value(std::string_view)>
-          getCellValueCallback) const = 0;
+      std::function<double(std::string_view)> getCellValueCallback) const = 0;
 
   // higher is tighter
   virtual ExprPrecedence GetPrecedence() const = 0;

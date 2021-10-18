@@ -17,8 +17,7 @@ class FormulaInterface {
   // Возвращает вычисленное значение формулы либо ошибку. На данном этапе
   // мы создали только 1 вид ошибки -- деление на 0.
   virtual Value Evaluate(
-      std::function<FormulaInterface::Value(std::string_view)>
-          getCellValueCallback) const = 0;
+      std::function<double(std::string_view)> getCellValueCallback) const = 0;
 
   // Возвращает выражение, которое описывает формулу.
   // Не содержит пробелов и лишних скобок.
@@ -38,8 +37,8 @@ class Formula : public FormulaInterface {
   explicit Formula(std::string expression)
       : ast_(ParseFormulaAST(expression)) {}
 
-  Value Evaluate(std::function<FormulaInterface::Value(std::string_view)>
-                     getCellValueCallback) const override;
+  Value Evaluate(std::function<double(std::string_view)> getCellValueCallback)
+      const override;
 
   std::string GetExpression() const override;
 
