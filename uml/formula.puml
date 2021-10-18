@@ -9,6 +9,7 @@ abstract class FormulaInterface {
 }
 
 class Formula {
+    +Formula(in expression: string)
     -ast_: FormulaAST
 }
 

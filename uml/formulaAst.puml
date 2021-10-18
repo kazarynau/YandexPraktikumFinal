@@ -3,6 +3,8 @@
 !include expression.puml
 
 class FormulaAST {
+    +FormulaAST(in rootExpr: Expr*)
+    +FormulaAST(move FormulaAST)
     +Execute(in getCellValueCallback: function): double
     +PrintCells(inout os: ostream)
     +Print(inout os: ostream)

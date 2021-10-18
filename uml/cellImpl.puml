@@ -14,10 +14,14 @@ class EmptyImpl {
 }
 
 class TextImpl {
+    +TextImpl(in text: string)
+    +Set(in text: string)
     -value_: string
 }
 
 class FormulaImpl {
+    +FormulaImpl(in text: string)
+    +Set(in text: string)
     -formula_: FormulaInterface*
     -dependentCells_: set<CellInterface*>
     -cache_: optional<CellInterface::Value>
