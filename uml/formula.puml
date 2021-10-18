@@ -1,6 +1,9 @@
 
 @startuml
-!include formulaAst.puml
+
+package FormulaASTPkg {
+    !include formulaAst.puml
+}
 
 abstract class FormulaInterface {
     +{abstract} Evaluate(in getCellValueCallback: function): Value

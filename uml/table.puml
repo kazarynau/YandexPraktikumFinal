@@ -1,16 +1,24 @@
 
 @startuml
 
-!include cell.puml
-!include sheet.puml
-!include formula.puml
+package CellPkg {
+    !include cell.puml
+}
+
+package SheetPkg {
+    !include sheet.puml
+}
+
+package FormulaPkg {
+    !include formula.puml
+}
 
 Cell *-r- FormulaInterface
-Sheet *-r- CellInterface
+Sheet *-l- CellInterface
 
-remove Expr
-remove BinaryOpExpr
-remove UnaryOpExpr
-remove NumberExpr
+' remove Expr
+' remove BinaryOpExpr
+' remove UnaryOpExpr
+' remove NumberExpr
 
 @enduml
