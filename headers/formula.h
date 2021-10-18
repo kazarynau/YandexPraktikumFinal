@@ -23,6 +23,8 @@ class FormulaInterface {
   // Возвращает выражение, которое описывает формулу.
   // Не содержит пробелов и лишних скобок.
   virtual std::string GetExpression() const = 0;
+
+  virtual std::vector<Position> GetReferencedCells() const = 0;
 };
 
 // Парсит переданное выражение и возвращает объект формулы.
@@ -37,20 +39,12 @@ class Formula : public FormulaInterface {
       : ast_(ParseFormulaAST(expression)) {}
 
   Value Evaluate(std::function<FormulaInterface::Value(std::string_view)>
-                     getCellValueCallback) const override {
-    try {
-      return ast_.Execute();
-    } catch (const FormulaError& error) {
-      return error;
-    }
-    return FormulaError("");
-  }
+                     getCellValueCallback) const override;
 
-  std::string GetExpression() const override {
-    std::stringstream ss;
-    ast_.PrintFormula(ss);
-    return ss.str();
-  }
+  std::string GetExpression() const override;
+
+  // Получает ячейки из ast_
+  std::vector<Position> GetReferencedCells() const override;
 
  private:
   FormulaAST ast_;

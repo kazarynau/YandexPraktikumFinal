@@ -1,5 +1,6 @@
 
 @startuml
+!include cellImpl.puml
 
 abstract class CellInterface {
     +{abstract} Set(in text: string)
@@ -10,10 +11,13 @@ abstract class CellInterface {
 
 class Cell {
     +Clear()
-    +IsReferenced(): bool
+    +AddDependentCell(in dependent: CellInterface*)
+    +DeleteDependentCell(in dependent: CellInterface*)
+    +InvalidateCache()
     -cell_: Impl*
 }
 
 class Cell extends CellInterface
+Cell *-r- Impl
 
 @enduml

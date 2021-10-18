@@ -5,6 +5,7 @@
 abstract class FormulaInterface {
     +{abstract} Evaluate(in getCellValueCallback: function): Value
     +{abstract} GetExpression(): string
+    +{abstract} GetReferencedCells(): vector<Position>
 }
 
 class Formula {

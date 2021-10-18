@@ -11,11 +11,14 @@ class Sheet : public SheetInterface {
  public:
   ~Sheet();
 
-  // - Создаем новый cell (старый не обновляем, пока не проверим на циклы)
-  // - Получаем для него referenced cells
-  // - Запускаем проверку HasCircularDependency
+  // НАДО КАК-ТО ИНАЧЕ, т.к. при вызове сета у села мы начинаем инвалидировать
+  // чужие кэши и т.д.
+  // - проверяем границы
+  // - создаем новый cell (старый не обновляем, пока не проверим на циклы)
+  // - получаем для него referenced cells
+  // - запускаем проверку HasCircularDependency()
   //   если есть, то выбрасываем CircularDependencyException
-  //   если нет, то обновляем ячейку
+  //   если нет, то обновляем ячейку (например, swap)
   void SetCell(Position pos, std::string text) override;
 
   const CellInterface* GetCell(Position pos) const override;

@@ -1,0 +1,30 @@
+
+@startuml
+
+abstract class Impl {
+    +{abstract} GetValue(in getCellValueCallback: function): Value
+    +{abstract} GetText(): string
+    +{abstract} GetReferencedCells(): vector<Position>
+    +{abstract} AddDependentCell(in dependent: CellInterface*)
+    +{abstract} DeleteDependentCell(in dependent: CellInterface*)
+    +{abstract} InvalidateCache()
+}
+
+class EmptyImpl {
+}
+
+class TextImpl {
+    -value_: string
+}
+
+class FormulaImpl {
+    -formula_: FormulaInterface*
+    -dependentCells_: set<CellInterface*>
+    -cache_: optional<CellInterface::Value>
+}
+
+class EmptyImpl implements Impl
+class TextImpl implements Impl
+class FormulaImpl implements Impl
+
+@enduml
