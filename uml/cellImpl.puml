@@ -29,9 +29,10 @@ class TextImpl {
 class FormulaImpl {
     +FormulaImpl(in sheet: SheetInterface, in text: string)
     +Set(in text: string)
+
     -sheet_: SheetInterface&
-    -formula_: FormulaInterface*
-    -dependentCells_: set<Position>
+    -formula_: unique_ptr<FormulaInterface>
+    -dependentCells_: unordered_set<Position>
     -cache_: optional<CellInterface::Value>
 }
 

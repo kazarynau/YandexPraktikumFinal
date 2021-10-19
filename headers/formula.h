@@ -67,8 +67,5 @@ class Formula : public FormulaInterface {
   std::vector<Position> GetReferencedCells() const override;
 
  private:
-  double GetCellValue(std::string_view str) const = 0;
-
- private:
   FormulaAST ast_;
 };

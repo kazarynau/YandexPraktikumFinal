@@ -3,7 +3,7 @@
 !include expression.puml
 
 class FormulaAST {
-    +FormulaAST(in rootExpr: Expr*)
+    +FormulaAST(in rootExpr: unique_ptr<Expr>)
     +FormulaAST(move FormulaAST)
     +Execute(in getCellValueCallback: function): double
     +PrintCells(inout os: ostream)
@@ -11,8 +11,9 @@ class FormulaAST {
     +PrintFormula(inout os: ostream)
     +GetCells(): list<Position>
     +GetCells() const : list<Position>
-    -rootExpr_: Expr
-    -cells: list<Position>
+
+    -rootExpr_: unique_ptr<Expr>
+    -cells: forward_list<Position>
 }
 
 FormulaAST *-r- Expr
