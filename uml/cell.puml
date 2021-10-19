@@ -3,19 +3,20 @@
 !include cellImpl.puml
 
 abstract class CellInterface {
-    +{abstract} Set(in text: string)
     +{abstract} GetValue(in getCellValueCallback: function): Value
     +{abstract} GetText(): string
     +{abstract} GetReferencedCells(): vector<Position>
 }
 
 class Cell {
-    +Cell()
+    +Cell(inout sheet: Sheet)
     +Clear()
+    +Set(in text: string)
     +GetDependentCells(): vector<Position>
     +AddDependentCell(in pos: Position)
     +DeleteDependentCell(in pos: Position)
     +InvalidateCache()
+    -sheet_: Sheet&
     -cell_: Impl*
 }
 

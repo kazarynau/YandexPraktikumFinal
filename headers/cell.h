@@ -1,13 +1,16 @@
 #pragma once
 
+#include <functional>
 #include <optional>
 #include <unordered_set>
 #include "common.h"
 #include "formula.h"
 
+class Sheet;
+
 class Cell : public CellInterface {
  public:
-  Cell();
+  Cell(Sheet& sheet);
   ~Cell();
 
   void Set(std::string text) override;
@@ -28,12 +31,12 @@ class Cell : public CellInterface {
   void InvalidateCache() const;
 
  private:
-  //можете воспользоваться нашей подсказкой, но это необязательно.
   class Impl;
   class EmptyImpl;
   class TextImpl;
   class FormulaImpl;
 
+  Sheet& sheet;
   std::unique_ptr<Impl> impl_;
 };
 
