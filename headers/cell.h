@@ -9,6 +9,7 @@
 class Sheet;
 
 class GraphInterface {
+ public:
   virtual std::vector<Position> GetReferencedCells() const = 0;
   virtual std::vector<Position> GetDependentCells() const = 0;
   virtual void AddDependentCell(const Position pos) = 0;
