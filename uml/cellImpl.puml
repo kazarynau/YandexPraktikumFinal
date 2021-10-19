@@ -6,6 +6,7 @@ abstract class GraphInterface {
     +{abstract} GetDependentCells(): vector<Position>
     +{abstract} AddDependentCell(in pos: Position)
     +{abstract} DeleteDependentCell(in pos: Position)
+    +{abstract} HasCircularDependency(inout visitedCells: unordered_set<CellInterface*>&, \nin currentCell: Position, in referencedCells: vector<Position>)
 }
 
 abstract class Impl {
@@ -26,8 +27,9 @@ class TextImpl {
 }
 
 class FormulaImpl {
-    +FormulaImpl(in text: string)
+    +FormulaImpl(in sheet: SheetInterface, in text: string)
     +Set(in text: string)
+    -sheet_: SheetInterface&
     -formula_: FormulaInterface*
     -dependentCells_: set<Position>
     -cache_: optional<CellInterface::Value>

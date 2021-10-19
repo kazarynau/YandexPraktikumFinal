@@ -13,14 +13,12 @@ class Cell {
     +Clear()
     +Set(in text: string)
     +InvalidateCache()
-    -HasCircularDependency(inout visitedCells: unordered_set<CellInterface*>&, in currentCell: Position,
-            referencedCells: vector<Position>)
+
     -sheet_: Sheet&
     -cell_: Impl*
 }
 
 class Cell extends CellInterface
-class Cell extends GraphInterface
 Cell *-r- Impl
 
 @enduml
