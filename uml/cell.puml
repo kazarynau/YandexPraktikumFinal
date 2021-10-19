@@ -12,15 +12,13 @@ class Cell {
     +Cell(inout sheet: Sheet)
     +Clear()
     +Set(in text: string)
-    +GetDependentCells(): vector<Position>
-    +AddDependentCell(in pos: Position)
-    +DeleteDependentCell(in pos: Position)
     +InvalidateCache()
     -sheet_: Sheet&
     -cell_: Impl*
 }
 
 class Cell extends CellInterface
+class Cell extends GraphInterface
 Cell *-r- Impl
 
 @enduml

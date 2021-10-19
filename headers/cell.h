@@ -8,7 +8,14 @@
 
 class Sheet;
 
-class Cell : public CellInterface {
+class GraphInterface {
+  virtual std::vector<Position> GetReferencedCells() const = 0;
+  virtual std::vector<Position> GetDependentCells() const = 0;
+  virtual void AddDependentCell(const Position pos) = 0;
+  virtual void DeleteDependentCell(const Position pos) = 0;
+};
+
+class Cell : public CellInterface, public GraphInterface {
  public:
   Cell(Sheet& sheet);
   ~Cell();
@@ -20,14 +27,15 @@ class Cell : public CellInterface {
 
   Value GetValue() const override;
   std::string GetText() const override;
+
   std::vector<Position> GetReferencedCells() const override;
   // Используется Position, т.к. сказано, что нельзя менять CellInterface,
   // поэтому нет смысла использовать указатели на ячейки
-  std::vector<Position> GetDependentCells() const;
-
+  std::vector<Position> GetDependentCells() const override;
   // Если ячейка не создана, создаем EmptyImpl и в нее добавляем dependent cell
-  void AddDependentCell(const Position pos);
-  void DeleteDependentCell(const Position pos);
+  void AddDependentCell(const Position pos) override;
+  void DeleteDependentCell(const Position pos) override;
+
   void InvalidateCache() const;
 
  private:
@@ -41,18 +49,13 @@ class Cell : public CellInterface {
 };
 
 // ------------------------------------------------------------
-class Cell::Impl {
+class Cell::Impl : public GraphInterface {
  public:
   virtual CellInterface::Value GetValue(
       std::function<double(std::string_view)> getCellValueCallback) const = 0;
   virtual std::string GetText() const = 0;
   virtual ~Impl() = default;
 
-  virtual std::vector<Position> GetReferencedCells() const = 0;
-  virtual std::vector<Position> GetDependentCells() const = 0;
-
-  virtual void AddDependentCell(const Position pos) = 0;
-  virtual void DeleteDependentCell(const Position pos) = 0;
   virtual void InvalidateCache() const = 0;
 };
 
