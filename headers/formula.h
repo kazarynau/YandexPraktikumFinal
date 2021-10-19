@@ -14,10 +14,8 @@ class FormulaInterface {
 
   virtual ~FormulaInterface() = default;
 
-  // Возвращает вычисленное значение формулы либо ошибку. На данном этапе
-  // мы создали только 1 вид ошибки -- деление на 0.
-  virtual Value Evaluate(
-      std::function<double(std::string_view)> getCellValueCallback) const = 0;
+  // Возвращает вычисленное значение формулы либо ошибку
+  virtual Value Evaluate(const SheetInterface& sheet) const = 0;
 
   // Возвращает выражение, которое описывает формулу.
   // Не содержит пробелов и лишних скобок.
@@ -37,13 +35,26 @@ class Formula : public FormulaInterface {
   explicit Formula(std::string expression)
       : ast_(ParseFormulaAST(expression)) {}
 
-  Value Evaluate(std::function<double(std::string_view)> getCellValueCallback)
-      const override;
+  // В функции создаем лямбду getCellValue(std::string_view str) -> double.
+  // Эта лямбда будет использоваться в AST, где не обрабатываются ошибки.
+  // Поэтому она возвращает double. Если же double вернуть невозможно, то
+  // бросается исключение. Исключение будет отловлено в formula.Evaluate()
+  // Лямбда, пользуясь sheet:
+  // - получает значение путем вызова sheet.GetCell(str) -> GetValue()
+  //   если значение double, возвращает double
+  //   если значение string, то пытается преобразовать в double,
+  //     если получилось, возвращает double
+  //     если нет - бросает исключение
+  //   если значение ошибка, то заново бросает исключение
+  Value Evaluate(const SheetInterface& sheet) const override;
 
   std::string GetExpression() const override;
 
   // Получает ячейки из ast_
   std::vector<Position> GetReferencedCells() const override;
+
+ private:
+  double GetCellValue(std::string_view str) const = 0;
 
  private:
   FormulaAST ast_;

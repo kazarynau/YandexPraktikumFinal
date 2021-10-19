@@ -6,7 +6,7 @@ package FormulaASTPkg {
 }
 
 abstract class FormulaInterface {
-    +{abstract} Evaluate(in getCellValueCallback: function): Value
+    +{abstract} Evaluate(in sheet: SheetInterface): Value
     +{abstract} GetExpression(): string
     +{abstract} GetReferencedCells(): vector<Position>
 }
