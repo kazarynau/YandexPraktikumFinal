@@ -1,0 +1,34 @@
+
+@startuml
+
+abstract class Expr {
+    +{abstract} Print()
+    +{abstract} DoPrintFormula(inout os: ostream, in precedence: ExprPrecedence)
+    +{abstract} Evaluate(in getCellValueCallback: function): double
+    +{abstract} GetPrecedence(): ExprPrecedence
+    +PrintFormula(inout os: ostream, in precedence: ExprPrecedence, in rightChild: bool)
+}
+
+class BinaryOpExpr {
+    +BinaryOpExpr(in type: opType, in lhs: Expr*, in rhs: Expr*)
+    -opType_: BinaryOpExpr::Type
+    -lhs_: Expr*
+    -rhs_: Expr*
+}
+
+class UnaryOpExpr {
+    +UnaryOpExpr(in type: opType, in operand: Expr*)
+    -opType_: UnaryOpExpr::Type
+    -operand_: Expr*
+}
+
+class NumberExpr {
+    +NumberExpr(in value: double)
+    -value_: double
+}
+
+class BinaryOpExpr implements Expr
+class UnaryOpExpr implements Expr
+class NumberExpr implements Expr
+
+@enduml

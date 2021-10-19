@@ -1,0 +1,24 @@
+
+@startuml
+!include cellImpl.puml
+
+abstract class CellInterface {
+    +{abstract} GetValue(in getCellValueCallback: function): Value
+    +{abstract} GetText(): string
+    +{abstract} GetReferencedCells(): vector<Position>
+}
+
+class Cell {
+    +Cell(inout sheet: Sheet)
+    +Clear()
+    +Set(in text: string)
+    +InvalidateCache()
+
+    -sheet_: Sheet&
+    -cell_: Impl*
+}
+
+class Cell extends CellInterface
+Cell *-r- Impl
+
+@enduml

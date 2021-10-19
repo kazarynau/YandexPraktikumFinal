@@ -1,0 +1,21 @@
+
+@startuml
+!include expression.puml
+
+class FormulaAST {
+    +FormulaAST(in rootExpr: unique_ptr<Expr>)
+    +FormulaAST(move FormulaAST)
+    +Execute(in getCellValueCallback: function): double
+    +PrintCells(inout os: ostream)
+    +Print(inout os: ostream)
+    +PrintFormula(inout os: ostream)
+    +GetCells(): list<Position>
+    +GetCells() const : list<Position>
+
+    -rootExpr_: unique_ptr<Expr>
+    -cells: forward_list<Position>
+}
+
+FormulaAST *-r- Expr
+
+@enduml

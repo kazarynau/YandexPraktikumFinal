@@ -1,0 +1,6 @@
+#BasedOnStyle: Microsoft
+#BasedOnStyle: LLVM
+#BasedOnStyle: Google
+BasedOnStyle: Chromium
+#BasedOnStyle: Mozilla
+#BasedOnStyle: WebKit

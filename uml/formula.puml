@@ -1,0 +1,22 @@
+
+@startuml
+
+package FormulaASTPkg {
+    !include formulaAst.puml
+}
+
+abstract class FormulaInterface {
+    +{abstract} Evaluate(in sheet: SheetInterface): Value
+    +{abstract} GetExpression(): string
+    +{abstract} GetReferencedCells(): vector<Position>
+}
+
+class Formula {
+    +Formula(in expression: string)
+    -ast_: FormulaAST
+}
+
+class Formula implements FormulaInterface
+Formula *-r- FormulaAST
+
+@enduml
