@@ -18,12 +18,14 @@ abstract class Impl {
 class Impl extends GraphInterface
 
 class EmptyImpl {
+    -dependentCells_: unordered_set<Position>
 }
 
 class TextImpl {
     +TextImpl(in text: string)
     +Set(in text: string)
     -value_: string
+    -dependentCells_: unordered_set<Position>
 }
 
 class FormulaImpl {
