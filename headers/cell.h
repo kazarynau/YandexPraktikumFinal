@@ -49,6 +49,7 @@ class Cell : public CellInterface {
   std::string GetText() const override;
 
   void InvalidateCache() const;
+  void InvalidateCacheWithoutDependent() const;
 
  private:
  private:
