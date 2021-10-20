@@ -6,7 +6,7 @@ abstract class GraphInterface {
     +{abstract} GetDependentCells(): vector<Position>
     +{abstract} AddDependentCell(in pos: Position)
     +{abstract} DeleteDependentCell(in pos: Position)
-    +{abstract} HasCircularDependency(inout visitedCells: unordered_set<CellInterface*>&, \nin currentCell: Position, in referencedCells: vector<Position>)
+    +{abstract} HasCircularDependency(in rootPos: Position)
 }
 
 abstract class Impl {
