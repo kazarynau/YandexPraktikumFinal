@@ -14,6 +14,7 @@ abstract class FormulaInterface {
 class Formula {
     +Formula(in expression: string)
     -ast_: FormulaAST
+    -referencedCells_: vector<Position>
 }
 
 class Formula implements FormulaInterface

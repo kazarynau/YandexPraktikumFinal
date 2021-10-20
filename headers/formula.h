@@ -68,4 +68,5 @@ class Formula : public FormulaInterface {
 
  private:
   FormulaAST ast_;
+  std::vector<Position> referencedCells_;
 };
