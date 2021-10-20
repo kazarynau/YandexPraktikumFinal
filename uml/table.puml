@@ -1,15 +1,15 @@
 
 @startuml
 
-package CellPkg {
+package CellUML {
     !include cell.puml
 }
 
-package SheetPkg {
+package SheetUML {
     !include sheet.puml
 }
 
-package FormulaPkg {
+package FormulaUML {
     !include formula.puml
 }
 
