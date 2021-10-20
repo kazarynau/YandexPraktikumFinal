@@ -10,31 +10,31 @@ abstract class GraphInterface {
 }
 
 abstract class Impl {
+    +Impl(in sheet: SheetInterface)
     +{abstract} GetValue(in getCellValueCallback: function): Value
     +{abstract} GetText(): string
     +{abstract} InvalidateCache()
+
+    -sheet_: SheetInterface&
+    -dependentCells_: unordered_set<Position>
 }
 
 class Impl extends GraphInterface
 
 class EmptyImpl {
-    -dependentCells_: unordered_set<Position>
 }
 
 class TextImpl {
     +TextImpl(in text: string)
     +Set(in text: string)
     -value_: string
-    -dependentCells_: unordered_set<Position>
 }
 
 class FormulaImpl {
     +FormulaImpl(in sheet: SheetInterface, in text: string)
     +Set(in text: string)
 
-    -sheet_: SheetInterface&
     -formula_: unique_ptr<FormulaInterface>
-    -dependentCells_: unordered_set<Position>
     -cache_: optional<CellInterface::Value>
 }
 

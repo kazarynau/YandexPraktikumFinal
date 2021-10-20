@@ -67,12 +67,21 @@ class Cell : public CellInterface {
 // ------------------------------------------------------------
 class Cell::Impl : public GraphInterface {
  public:
+  Impl(const SheetInterface& sheet);
   virtual CellInterface::Value GetValue(
       std::function<double(std::string_view)> getCellValueCallback) const = 0;
   virtual std::string GetText() const = 0;
   virtual ~Impl() = default;
 
   virtual void InvalidateCache() const = 0;
+
+  std::vector<Position> GetDependentCells() const override;
+  void AddDependentCell(const Position pos) override;
+  void DeleteDependentCell(const Position pos) override;
+
+ private:
+  SheetInterface& sheet_;
+  std::unordered_set<Position> dependentCells_;
 };
 
 class Cell::FormulaImpl : public Impl {
@@ -90,18 +99,12 @@ class Cell::FormulaImpl : public Impl {
   std::string GetText() const override;
 
   std::vector<Position> GetReferencedCells() const override;
-  std::vector<Position> GetDependentCells() const override;
-
-  void AddDependentCell(const Position pos) override;
-  void DeleteDependentCell(const Position pos) override;
 
   // Сбрасывает свой cache_
   // а также вызывает InvalidateCache для всех dependentCells_;
   void InvalidateCache() const override;
 
  private:
-  SheetInterface& sheet_;
   std::unique_ptr<FormulaInterface> formula_;
-  std::unordered_set<Position> dependentCells_;
   mutable std::optional<CellInterface::Value> cache_;
 };
