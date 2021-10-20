@@ -27,8 +27,14 @@ class NumberExpr {
     -value_: double
 }
 
+class CellExpr {
+    +CellExpr(in pos: Position)
+    -pos_: Position
+}
+
 class BinaryOpExpr implements Expr
 class UnaryOpExpr implements Expr
 class NumberExpr implements Expr
+class CellExpr implements Expr
 
 @enduml
